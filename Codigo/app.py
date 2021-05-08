@@ -1,10 +1,25 @@
 from flask import Flask
+import pymysql
+
 
 app = Flask(__name__)
 
+def obtener_conexion():
+    return pymysql.connect(host='localhost',
+                                user='root',
+                                password='',
+                                db='coffice')
+
+
 @app.route("/")
 def Index():
-    return "<h1>Que chingue su madre el cumpleañero</h1>"
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    consulta = "SELECT * FROM espacio JOIN tipo_espacio ON Espacio.Tipo = idTipo"
+    cursor.execute(consulta)
+    datos = cursor.fetchall()
+    conexion.close()
+    return str(datos)
 
 @app.route("/pito")
 def Pito():
