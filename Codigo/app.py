@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template, request, url_for, redirect, flash, session
 import pymysql
 
 
@@ -20,6 +20,17 @@ def Index():
     datos = cursor.fetchall()
     conexion.close()
     return str(datos)
+
+@app.route("/requerir_historial_empleado/<int:id_empleado>", methods=["GET"]) 
+def Requerir_empleado(id_empleado):
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    consulta = "SELECT * FROM registro JOIN Empleado ON Empleado.idEmpleado = registro.Empleado"
+    cursor.execute(consulta)
+    datos = cursor.fetchall()
+    conexion.close()
+    return str(datos)
+
 
 @app.route("/pito")
 def Pito():
