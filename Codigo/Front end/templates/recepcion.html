@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <link rel="preload" href="{{ url_for('static', filename= 'style.css') }}" as="style">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+    <title>Cloud office</title>
+
+    <meta name="description" content="Página web para apartar espacios de trabajo">
+    
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=PT+Sans:wght@400;700&display=swap" crossorigin="crossorigin" as="font">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">      
+
+
+</head>
+<body>
+    
+    <header class="header">
+        <div class="contenedor">
+            <div class="barra">
+                <a class="logo" href="/">
+                    <h1 class="logo_texto no-margin centrar-texto">Cloud Office</h1>
+                </a>
+                <nav class="navegacion">
+                    <a class="navegacion_enlace" href="/">Pagina principal</a>
+                    <a class="navegacion_enlace" href="admin.html">Administración</a>
+                </nav>
+            </div>
+        </div>
+
+        <div class="header_texto">
+            <h2 class="no-margin">Cloud Office</h2>
+            <p class="no-margin">Aparta tu lugar de trabajo</p>
+        </div>
+    </header>
+
+    <footer class="footer">
+        <div class="contenedor">
+            <div class="barra">
+                <a class="logo" href="/">
+                    <h1 class="logo_texto no-margin centrar-texto">Cloud Office</h1>
+                </a>
+                <nav class="navegacion">
+                    <a class="navegacion_enlace" href="/">Pagina principal</a>
+                    <a class="navegacion_enlace" href="admin.html">Administración</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+    
+</body>
+</html>

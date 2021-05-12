@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template, request, url_for, redirect, flash, session
 import pymysql
 
 
@@ -21,6 +21,7 @@ def Index():
     conexion.close()
     return str(datos)
 
+
 @app.route("/requerir_historial_empleado/<int:id_empleado>") 
 def Requerir_empleado(id_empleado):
     conexion = obtener_conexion()
@@ -30,6 +31,7 @@ def Requerir_empleado(id_empleado):
     datos = cursor.fetchall()
     conexion.close()
     return str(datos)
+
     
 @app.route("/requerir_estado_sala/<int:id_lugar>") 
 def Requerir_sala(id_lugar):
@@ -50,6 +52,7 @@ def Requerir_registro():
     datos = cursor.fetchall()
     conexion.close()
     return str(datos)
+
 
 if __name__ == "__main__":
     app.run(port = 3000, debug = True)
