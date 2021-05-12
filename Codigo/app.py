@@ -22,7 +22,8 @@ def Index():
     conexion.close()
     return str(datos)
 
-@app.route("/requerir_historial_empleado/<int:id_empleado>", methods=["GET"]) 
+
+@app.route("/requerir_historial_empleado/<int:id_empleado>") 
 def Requerir_empleado(id_empleado):
     conexion = obtener_conexion()
     cursor = conexion.cursor()
@@ -32,6 +33,7 @@ def Requerir_empleado(id_empleado):
     conexion.close()
     
     return str(datos)
+
 
 @app.route("/agregar_empleado", methods=["POST"])
 def Agregar_empleado():
@@ -95,10 +97,28 @@ def Apartar_lugar():
 
     return str(reserva_detalles)
 
-@app.route("/pito")
-def Pito():
-    x="12xd" + "zS"
-    return x
+    
+@app.route("/requerir_estado_sala/<int:id_lugar>") 
+def Requerir_sala(id_lugar):
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    consulta = "SELECT * FROM registro JOIN Espacio ON " + str(id_lugar) + "= registro.lugar"
+    cursor.execute(consulta)
+    datos = cursor.fetchall()
+    conexion.close()
+    return str(datos)
+
+@app.route("/requerir_historial_general/") 
+def Requerir_registro():
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    consulta = "SELECT * FROM registro"
+    cursor.execute(consulta)
+    datos = cursor.fetchall()
+    conexion.close()
+    return str(datos)
+
+
 
 if __name__ == "__main__":
     app.run(port = 3000, debug = True)
