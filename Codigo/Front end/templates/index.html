@@ -37,21 +37,30 @@
     </header>
 
     <main>
-        <div class="formulario">
+        <div>
             <fieldset>
                 <legend>Introduzca los siguientes datos para aprtar su lugar</legend>
-                <form>
-                    <label for="ID_empleado">ID del empleado: </label>
-                    <input type="text" id="ID_empleado" name="empleado" placeholder="ID empleado"/>
+                <form class="formulario">
+                   
+                    <div class="campo">
+                        <label for="ID_empleado">ID del empleado: </label>
+                        <input type="text" id="ID_empleado" name="empleado" placeholder="ID empleado"/>
+                    </div>
     
-                    <label for="ID_espacio">ID del lugar donde desea trabajar: </label>
-                    <input type="text" id="ID_espacio" name="espacio" placeholder="ID espacio">
+                    <div class="campo">
+                        <label for="ID_espacio">ID del lugar donde desea trabajar: </label>
+                        <input type="text" id="ID_espacio" name="espacio" placeholder="ID espacio">
+                    </div>
     
-                    <label for="hora_inicio">Hora de inicio</label>
-                    <input type="time" id="hora_inico" name="inicio">
+                    <div class="campo">
+                        <label for="hora_inicio">Hora de inicio</label>
+                        <input type="time" id="hora_inico" name="inicio">
+                    </div>
     
-                    <label for="hora_final">Hora de finalizacion</label>
-                    <input type="time" id="hora_final" name="final">
+                    <div class="campo">
+                        <label for="hora_final">Hora de finalizacion</label>
+                        <input type="time" id="hora_final" name="final">
+                    </div>
 
                     <input type="submit" name="enviar" value="Enviar peticion">
 
