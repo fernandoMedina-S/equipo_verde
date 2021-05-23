@@ -39,17 +39,21 @@
     </header>
 
     <main>
-        <div class="formulario">
+        <div >
             <fieldset>
                 <legend>Introduzca los siguientes datos para entrar como administrador</legend>
-                <form>
+                <form class="formulario">
                     <img class="img" src="../static/images/login.png" alt="imagen login">
 
-                    <label for="ID_admin">ID administrador: </label>
-                    <input type="text" id="ID_admin" name="admin" placeholder="ID administrador"/>
+                    <div class="campo">
+                        <label for="ID_admin">ID administrador: </label>
+                        <input type="text" id="ID_admin" name="admin" placeholder="ID administrador"/>
+                    </div>
     
-                    <label for="password">Contraseña: </label>
-                    <input type="password" id="password" name="password" placeholder="password">
+                    <div class="campo">
+                        <label for="password">Contraseña: </label>
+                        <input type="password" id="password" name="password" placeholder="password">
+                    </div>
 
                     <input type="submit" name="ingresar" value="Ingresar">
                 </form> 
