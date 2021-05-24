@@ -6,6 +6,7 @@
     --blanco: #ffffff;
     --rojo: #FF3333;
     --gris: #e1e1e1;
+    --verde: #33FF33;
 }
 
 html{
@@ -70,15 +71,9 @@ img{
 
 /*Header*/
 .header{
-    background-image: url(/fondo.jpg);
-    height: 60rem;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-}
-
-.header{
-    height: 60rem;
 }
 
 .header_texto{
@@ -139,8 +134,56 @@ img{
 .boton{
     color: var(--rojo);
     background: transparent;
-    border: 2px solid var(--rojo);
-    border-radius: 5px;
-    color: var(--white);
+    background-color: var(--verde);
+    border: .2rem solid var(--negro);
+    border-radius: .5rem;
+    color: var(--negro);
+    cursor: pointer;
+}
 
+/*Formulario*/
+
+.formulario{
+    width: 50%;
+}
+
+.campo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+
+label{
+    flex: 0 0 20rem;
+    color: var(--negro);
+}
+
+input{
+    flex: 1;
+    padding: 1.25rem;
+    border-radius: 1rem;
+    border:  1px solid var(--negro);
+}
+
+.alerta{
+    padding: 2.5rem;
+    text-align: center;
+    color: var(--blanco);
+    width: 100%;
+    display: block;
+}
+
+.error{
+    padding: 2.5rem;
+    text-align: center;
+    color: var(--blanco);
+    width: 100%;
+    display: block;
+    background-color: var(--rojo);
+}
+
+.img{
+    width: 5rem;
+    height: 5rem;
 }

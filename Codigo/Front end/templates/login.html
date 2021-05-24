@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preload" href="{{ url_for('static', filename='style.css') }}" as="style">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css' ) }}">
+    <link rel="preload" href="{{ url_for('static', filename= 'style.css') }}" as="style">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
     <title>Cloud office</title>
 
     <meta name="description" content="Página web para apartar espacios de trabajo">
 
-    
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Open+Sans&family=PT+Sans:wght@400;700&display=swap" crossorigin="crossorigin" as="font">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">      
+    
+
+
 </head>
 <body>
     
@@ -24,7 +26,7 @@
                     <h1 class="logo_texto no-margin centrar-texto">Cloud Office</h1>
                 </a>
                 <nav class="navegacion">
-                    <a class="navegacion_enlace" href="login.html">Iniciar Sesión</a>
+                    <a class="navegacion_enlace" href="/">Pagina principal</a>
                     <a class="navegacion_enlace" href="recepcion.html">Recepción</a>
                 </nav>
             </div>
@@ -32,43 +34,28 @@
 
         <div class="header_texto">
             <h2 class="no-margin">Cloud Office</h2>
-            <p class="no-margin">Aparta tu lugar de trabajo</p>
+            <p class="no-margin">Administra los lugares de trabajo</p>
         </div>
     </header>
 
     <main>
-        <div>
+        <div >
             <fieldset>
-                <legend>Introduzca los siguientes datos para aprtar su lugar</legend>
+                <legend>Introduzca los siguientes datos para entrar como administrador</legend>
                 <form class="formulario">
-                   
+                    <img class="img" src="../static/images/login.png" alt="imagen login">
+
                     <div class="campo">
-                        <label for="ID_empleado">ID del empleado: </label>
-                        <input type="text" id="ID_empleado" name="empleado" placeholder="ID empleado"/>
+                        <label for="ID_admin">ID administrador: </label>
+                        <input type="text" id="ID_admin" name="admin" placeholder="ID administrador"/>
                     </div>
     
                     <div class="campo">
-                        <label for="ID_espacio">ID del lugar donde desea trabajar: </label>
-                        <input type="text" id="ID_espacio" name="espacio" placeholder="ID espacio">
-                    </div>
-    
-                    <div class="campo">
-                        <label for="hora_inicio">Hora de inicio</label>
-                        <input type="time" id="hora_inico" name="inicio">
-                    </div>
-    
-                    <div class="campo">
-                        <label for="hora_final">Hora de finalizacion</label>
-                        <input type="time" id="hora_final" name="final">
+                        <label for="password">Contraseña: </label>
+                        <input type="password" id="password" name="password" placeholder="password">
                     </div>
 
-                    <div class="campo">
-                        <label for="fecha">Fecha</label>
-                        <input type="date" name="fecha" id="fecha">
-                    </div>
-
-                    <input class="boton" type="submit" name="enviar" value="Enviar peticion">
-
+                    <input class="boton" type="submit" name="ingresar" value="Ingresar">
                 </form> 
             </fieldset>
         </div>
@@ -81,7 +68,7 @@
                     <h1 class="logo_texto no-margin centrar-texto">Cloud Office</h1>
                 </a>
                 <nav class="navegacion">
-                    <a class="navegacion_enlace" href="login.html">Iniciar Sesión</a>
+                    <a class="navegacion_enlace" href="/">Pagina principal</a>
                     <a class="navegacion_enlace" href="recepcion.html">Recepción</a>
                 </nav>
             </div>
