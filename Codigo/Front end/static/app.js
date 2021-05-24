@@ -10,9 +10,10 @@ const admin = {
     password = ''
 }
 
-document.addEventListener('DOMContentLoaded', function{
+document.addEventListener('DOMContentLoaded', function(){
     iniciarApp();
 });
+
 
 function iniciarApp(){
     //solicitar un lugar
