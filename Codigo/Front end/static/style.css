@@ -134,9 +134,11 @@ img{
 .boton{
     color: var(--rojo);
     background: transparent;
-    border: .2rem solid var(--rojo);
+    background-color: var(--verde);
+    border: .2rem solid var(--negro);
     border-radius: .5rem;
-    color: var(--verde);
+    color: var(--negro);
+    cursor: pointer;
 }
 
 /*Formulario*/
@@ -153,7 +155,7 @@ img{
 
 
 label{
-    flex: 0 0 100rem;
+    flex: 0 0 20rem;
     color: var(--negro);
 }
 
@@ -161,7 +163,7 @@ input{
     flex: 1;
     padding: 1.25rem;
     border-radius: 1rem;
-    border:  1rem solid var(--negro);
+    border:  1px solid var(--negro);
 }
 
 .alerta{
