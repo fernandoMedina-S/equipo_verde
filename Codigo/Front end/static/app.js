@@ -175,7 +175,7 @@ function mostrarAlerta(mensaje, tipo){
 
     const alerta = document.createElement('DIV');
     alerta.textContent = mensaje;
-    alerta.classList,add('alerta');
+    alerta.classList.add('alerta');
 
     if(tipo === 'error'){
         alerta.classList.add('error');
