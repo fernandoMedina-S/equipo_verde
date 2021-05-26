@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, url_for, redirect, flash, session
+from typing import Tuple
+from flask import Flask, render_template, request, url_for, redirect, flash, session, make_response, jsonify
+from jinja2.utils import consume
 import pymysql
-import jsonify
 
 
 app = Flask(__name__)
@@ -23,16 +24,33 @@ def Index():
     return str(datos)
 
 
-@app.route("/requerir_historial_empleado/<int:id_empleado>") 
-def Requerir_empleado(id_empleado):
+@app.route("/requerir_historial_empleado") 
+def Requerir_empleado():
+    datos_pedir = request.get_json()
+    empleado = datos_pedir["empleado"]
     conexion = obtener_conexion()
     cursor = conexion.cursor()
-    consulta = "SELECT * FROM registro JOIN Empleado ON Empleado.idEmpleado = registro.Empleado"
+    consulta = "select empleado.idEmpleado, empleado.Nombre, espacio.nombre, fecha from empleado join registro on empleado.idEmpleado = registro.empleado join espacio on espacio.idEspacio = registro.lugar where empleado.idEmpleado = {0};".format(empleado)
     cursor.execute(consulta)
     datos = cursor.fetchall()
     conexion.close()
+    dict = {}
+
+    if(len(datos) == 0):
+        return jsonify({"0":"Datos no encontrados"}), 404
+        
+    for i in range (0, len(datos)):
+        dict_aux = {}
+
+        dict_aux["idEmpleado"] = datos[i][0]
+        dict_aux["NombreEmpleado"] = datos[i][1]
+        dict_aux["NombreEspacio"] = datos[i][2]
+        dict_aux["Fecha"] = datos[i][3]
+
+        dict[str(i + 1)]=dict_aux
+
     
-    return str(datos)
+    return dict, 200
 
 
 @app.route("/agregar_empleado", methods=["POST"])
@@ -42,14 +60,17 @@ def Agregar_empleado():
     nombre_empleado = str(empleado_detalles["nombre_empleado"])
     admin = str(empleado_detalles["admin"])
 
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
-    consulta = "INSERT INTO empleado (idEmpleado, Nombre, Admin) VALUES ('{0}', '{1}', '{2}')".format(num_empleado, nombre_empleado, admin)
-    cursor.execute(consulta)
-    conexion.commit()
-    conexion.close()
+    try:
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
+        consulta = "INSERT INTO empleado (idEmpleado, Nombre, Admin) VALUES ('{0}', '{1}', '{2}')".format(num_empleado, nombre_empleado, admin)
+        cursor.execute(consulta)
+        conexion.commit()
+        conexion.close()
+    except:
+        return jsonify({"EmpleadoAgregado":False}), 401
 
-    return "Datos recibidos: " + str(empleado_detalles)
+    return jsonify({"EmpleadoAgregado":True}), 201
 
 @app.route("/agregar_espacio", methods=["POST"])
 def agregar_espacio():
@@ -58,19 +79,22 @@ def agregar_espacio():
     nombre_espacio = espacio_detalles["nombre_espacio"]
     tipo_espacio = espacio_detalles["tipo_espacio"]
 
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
-    consulta = "SELECT idTipo FROM tipo_espacio WHERE Tipo = '{0}'".format(tipo_espacio)
-    cursor.execute(consulta)
-    datos_tipo = cursor.fetchall()
-    tipo_espacio = datos_tipo[0][0]
+    try:
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
+        consulta = "SELECT idTipo FROM tipo_espacio WHERE Tipo = '{0}'".format(tipo_espacio)
+        cursor.execute(consulta)
+        datos_tipo = cursor.fetchall()
+        tipo_espacio = datos_tipo[0][0]
 
-    consulta = "INSERT INTO espacio (Capacidad, Nombre, Tipo) VALUES ('{0}', '{1}', '{2}')".format(capacidad_espacio, nombre_espacio, tipo_espacio)
-    cursor.execute(consulta)
-    conexion.commit()
-    conexion.close()
+        consulta = "INSERT INTO espacio (Capacidad, Nombre, Tipo) VALUES ('{0}', '{1}', '{2}')".format(capacidad_espacio, nombre_espacio, tipo_espacio)
+        cursor.execute(consulta)
+        conexion.commit()
+        conexion.close()
+    except:
+        return jsonify({"EspacioAgregado":False}), 401
 
-    return str(espacio_detalles)
+    return jsonify({"EspacioAgregado":True}), 201
 
 @app.route("/apartar_lugar", methods=["POST"])
 def Apartar_lugar():
@@ -83,41 +107,138 @@ def Apartar_lugar():
     cursor = conexion.cursor()
     
 
-    consulta = "SELECT idEspacio from Espacio where Nombre = '{0}'".format(espacio_apartado)
-    cursor.execute(consulta)
-    nombre_espacio = cursor.fetchall()
-    print(consulta)
+    try:
+        consulta = "SELECT idEspacio from Espacio where Nombre = '{0}'".format(espacio_apartado)
+        cursor.execute(consulta)
+        nombre_espacio = cursor.fetchall()
+        
 
-    espacio_apartado = nombre_espacio[0][0]
+        espacio_apartado = nombre_espacio[0][0]
 
-    consulta = "INSERT INTO registro (Empleado, Lugar, Fecha) VALUES ('{0}', '{1}', '{2}')".format(empleado_apartado, espacio_apartado, fecha_apartado)
-    cursor.execute(consulta)
-    conexion.commit()
-    conexion.close()
+        consulta = "INSERT INTO registro (Empleado, Lugar, Fecha) VALUES ('{0}', '{1}', '{2}')".format(empleado_apartado, espacio_apartado, fecha_apartado)
+        cursor.execute(consulta)
+        conexion.commit()
+        conexion.close()
+    except:
+        return jsonify({"ApartadoAgregado":False}), 401
 
-    return str(reserva_detalles)
+    return jsonify({"ApartadoAgregado":True}), 201
 
     
-@app.route("/requerir_estado_sala/<int:id_lugar>") 
-def Requerir_sala(id_lugar):
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
-    consulta = "SELECT * FROM registro JOIN Espacio ON " + str(id_lugar) + "= registro.lugar"
-    cursor.execute(consulta)
-    datos = cursor.fetchall()
-    conexion.close()
-    return str(datos)
+@app.route("/requerir_estado_espacio") 
+def Requerir_sala():
+    datos_solicitados = request.get_json()
+    espacio_pedido = datos_solicitados["espacio"]
+    fecha_pedida = datos_solicitados["fecha"]
 
-@app.route("/requerir_historial_general/") 
+    try:
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
+        consulta = "select count(*) from registro join espacio on idEspacio = lugar where fecha = '" + str(fecha_pedida) + "' and Nombre = '" + str(espacio_pedido) + "'"
+        cursor.execute(consulta)
+        ocupados = cursor.fetchall()
+
+        consulta = "select capacidad from espacio where Nombre = '" + str(espacio_pedido) + "'"
+        cursor.execute(consulta)
+        totales = cursor.fetchall()
+        espacios_restantes = int(totales[0][0]) - int(ocupados[0][0])
+        conexion.close()
+    except:
+        return jsonify({"libres":"Error"}), 404
+
+    return jsonify({"libres":espacios_restantes}), 200
+
+@app.route("/requerir_historial_general") 
 def Requerir_registro():
     conexion = obtener_conexion()
     cursor = conexion.cursor()
-    consulta = "SELECT * FROM registro"
+    consulta = "select empleado.idEmpleado, empleado.Nombre, espacio.Nombre, Fecha from registro join espacio on registro.lugar = espacio.idEspacio join empleado on registro.empleado = empleado.idEmpleado order by fecha;"
     cursor.execute(consulta)
     datos = cursor.fetchall()
     conexion.close()
-    return str(datos)
 
+    dict = {}
+
+    for i in range(0, len(datos)):
+        dict_aux = {}
+        dict_aux["idEmpleado"] = datos[i][0]
+        dict_aux["NombreEmpleado"] = datos[i][1]
+        dict_aux["NombreLugar"] = datos[i][2]
+        dict_aux["Fecha"] = datos[i][3]
+
+        dict[str(i)]=dict_aux
+
+    return dict, 200
+
+@app.route("/modificar_empleado", methods=["PUT"])
+def modificar_empleado():
+    datos_nuevos=request.get_json()
+    num_empleado=datos_nuevos["num_empleado"]
+    nombre_empleado = datos_nuevos["nombre_empleado"]
+    admin=datos_nuevos["admin"]
+
+    try:
+        consulta = "update empleado set nombre = '" + str(nombre_empleado) +"' where idEmpleado = '"+str(num_empleado)+"';"
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
+        cursor.execute(consulta)
+        conexion.commit()
+
+        consulta = "update empleado set admin = '" + str(admin) +"' where idEmpleado = '"+str(num_empleado)+"';"
+
+        cursor.execute(consulta)
+        conexion.commit()
+        conexion.close()
+    except:
+        return jsonify({"actualizado":False}), 400
+    
+    return jsonify({"actualizado":True}), 201
+
+@app.route("/modificar_esoacio", methods=["PUT"])
+def modificar_espacio():
+    datos_espacio = request.get_json()
+    nombre_original = datos_espacio["nombre_original"]
+    nombre_cambiar = datos_espacio["nombre_cambiar"]
+    tipo = datos_espacio["tipo"]
+    capacidad = datos_espacio["capacidad"]
+
+    try:
+        consulta = "select idEspacio from espacio where nombre = '{0}';".format(nombre_original)
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
+        cursor.execute(consulta)
+        idEspacio = cursor.fetchall()
+        print("\n\n\n", idEspacio)
+
+        consulta = "select idTipo from tipo_espacio where tipo = '{0}';".format(tipo)
+        cursor.execute(consulta)
+        idTipo = cursor.fetchall()
+
+        consulta = "update espacio set nombre = '{0}' where idEspacio = {1}".format(nombre_cambiar, idEspacio[0][0])
+        cursor.execute(consulta)
+        conexion.commit()
+
+        consulta = "update espacio set tipo = {0} where idEspacio = {1}".format(idTipo[0][0], idEspacio[0][0])
+        cursor.execute(consulta)
+        conexion.commit()
+
+        consulta = "update espacio set capacidad = {0} where idEspacio = {1};".format(capacidad, idEspacio[0][0])
+        cursor.execute(consulta)
+        conexion.commit()
+    except:
+        return jsonify({"actualizado":False}), 400
+    
+    return jsonify({"actualizado":True}), 201
+
+@app.route("/modificar_registro", methods=["PUT"])
+def modificar_registro():
+    datos_registro = request.get_json()
+    idRegistro = datos_registro["idRegistro"]
+    empleado = datos_registro["empleado"]
+    lugar = datos_registro["nombre_sala"]
+    fecha = datos_registro["fecha"]
+
+    return "xD"
 
 
 if __name__ == "__main__":
