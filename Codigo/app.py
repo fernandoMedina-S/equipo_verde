@@ -9,7 +9,7 @@ app = Flask(__name__)
 def obtener_conexion():
     return pymysql.connect(host='localhost',
                                 user='root',
-                                password='',
+                                password='root',
                                 db='coffice')
 
 
@@ -50,7 +50,7 @@ def Requerir_empleado():
         dict[str(i + 1)]=dict_aux
 
     
-    return dict, 200
+    return jsonify(dict), 200
 
 
 @app.route("/agregar_empleado", methods=["POST"])
