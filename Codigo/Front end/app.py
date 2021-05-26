@@ -18,13 +18,40 @@ def index():
         for clave in diccionarioAux:
             listaAux.append(diccionarioAux[clave])
         listaPrincipal.append(listaAux)
-    print(listaPrincipal)
-    print(len(espacios))
     return render_template('index.html', espacios = listaPrincipal)
 
 @app.route("/admin.html")
 def admin():
-    return render_template('admin.html')
+    diccionario = {}
+    diccionario['empleado'] = 2345
+    url = 'http://127.0.0.1:3000/requerir_historial_empleado'
+    respuesta = requests.get(url, json=diccionario)
+    espacios = json.loads(respuesta.text)
+    listaPrincipal = []
+    for i in range(0, len(espacios)):
+        diccionarioAux = espacios[str(i+1)]
+        listaAux = []
+        for clave in diccionarioAux:
+            listaAux.append(diccionarioAux[clave])
+        listaPrincipal.append(listaAux)
+
+    
+    #Historial general
+    diccionarioGeneral = {}
+    diccionarioGeneral['empleado'] = 12345
+    urlGeneral = 'http://127.0.0.1:3000/requerir_historial_general'
+    respuestaGeneral = requests.get(urlGeneral, json=diccionarioGeneral)
+    historial = json.loads(respuestaGeneral.text)
+    listaPrincipalG = []
+    for i in range(0, len(historial)):
+        diccionarioAuxGeneral = historial[str(i)]
+        listaAuxG = []
+        for claveG in diccionarioAuxGeneral:
+            listaAuxG.append(diccionarioAuxGeneral[claveG])
+        listaPrincipalG.append(listaAuxG)
+    print(listaPrincipalG[0])
+
+    return render_template('admin.html', espacios = listaPrincipal ,historial = listaPrincipalG)
 
 @app.route("/recepcion.html")
 def recepcion():

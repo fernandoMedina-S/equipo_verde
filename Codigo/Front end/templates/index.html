@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preload" href="{{ url_for('static', filename='style.css') }}" as="style">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css' ) }}">
+    <link rel="preload" href="{{ url_for('static', filename='styles/style.css') }}" as="style">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css' ) }}">
     <title>Cloud office</title>
 
     <meta name="description" content="Página web para apartar espacios de trabajo">
@@ -37,10 +37,10 @@
     </header>
 
     <main>
-        <div>
+        <div >
             <fieldset>
                 <legend>Introduzca los siguientes datos para aprtar su lugar</legend>
-                <form class="formulario">
+                <form>
                    
                     <div class="campo">
                         <label for="ID_empleado">ID del empleado: </label>
@@ -56,11 +56,6 @@
                         <label for="hora_inicio">Hora de inicio</label>
                         <input type="time" id="hora_inico" name="inicio">
                     </div>
-    
-                    <div class="campo">
-                        <label for="hora_final">Hora de finalizacion</label>
-                        <input type="time" id="hora_final" name="final">
-                    </div>
 
                     <div class="campo">
                         <label for="fecha">Fecha</label>
@@ -74,30 +69,27 @@
         </div>
     </main>
 
-    <section>
-        <h2>Lugares disponibles</h2>
-
-        <table>
-            <thead>
+    <table>
+        <caption>Lugares disponibles</caption>
+        <thead>
+            <tr>
+                <td>Fecha</td>
+                <td>Nombre</td>
+                <td>Espacio</td>
+                <td>ID empleado</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for espacio in espacios%}
                 <tr>
-                    <td>Fecha</td>
-                    <td>Nombre</td>
-                    <td>Espacio</td>
-                    <td>ID empleado</td>
+                    <td>{{espacio.0}}</td>
+                    <td>{{espacio.1}}</td>
+                    <td>{{espacio.2}}</td>
+                    <td>{{espacio.3}}</td>
                 </tr>
-            </thead>
-            <tbody>
-                {% for espacio in espacios%}
-                    <tr>
-                        <td>{{espacio.0}}</td>
-                        <td>{{espacio.1}}</td>
-                        <td>{{espacio.2}}</td>
-                        <td>{{espacio.3}}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </section>
+            {% endfor %}
+        </tbody>
+    </table>
 
     <footer class="footer">
         <div class="contenedor">

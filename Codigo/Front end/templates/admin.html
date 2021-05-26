@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preload" href="{{ url_for('static', filename= 'style.css') }}" as="style">
-    <link rel="stylesheet" href="{{ url_for('static', filename= 'style.css') }}">
+    <link rel="preload" href="{{ url_for('static', filename= 'styles/style.css') }}" as="style">
+    <link rel="stylesheet" href="{{ url_for('static', filename= 'styles/style.css') }}">
     <title>Cloud office</title>
 
     <meta name="description" content="Página web para apartar espacios de trabajo">
@@ -37,6 +37,52 @@
             <p class="no-margin">Administra los lugares de trabajo</p>
         </div>
     </header>
+
+    <div class="tablas">
+        <table>
+            <caption>Historial de empleado</caption>
+            <thead>
+                <tr>
+                    <td>Fecha</td>
+                    <td>Nombre</td>
+                    <td>Espacio</td>
+                    <td>ID empleado</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for espacio in espacios%}
+                    <tr>
+                        <td>{{espacio.0}}</td>
+                        <td>{{espacio.1}}</td>
+                        <td>{{espacio.2}}</td>
+                        <td>{{espacio.3}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    
+        <table>
+            <caption>Historial General</caption>
+            <thead>
+                <tr>
+                    <td>Fecha</td>
+                    <td>Nombre</td>
+                    <td>Espacio</td>
+                    <td>ID empleado</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hist in historial %}
+                    <tr>
+                        <td>{{hist.0}}</td>
+                        <td>{{hist.1}}</td>
+                        <td>{{hist.2}}</td>
+                        <td>{{hist.3}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
     <footer class="footer">
         <div class="contenedor">
