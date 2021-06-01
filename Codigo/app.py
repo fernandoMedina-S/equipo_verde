@@ -10,14 +10,14 @@ def obtener_conexion():
     return pymysql.connect(host='localhost',
                                 user='root',
                                 password='',
-                                db='coffice')
+                                db='Coffice')
 
 
 @app.route("/")
 def Index():
     conexion = obtener_conexion()
     cursor = conexion.cursor()
-    consulta = "SELECT * FROM espacio JOIN tipo_espacio ON Espacio.Tipo = idTipo"
+    consulta = "SELECT * FROM Espacio JOIN Tipo_Espacio ON Espacio.Tipo = idTipo"
     cursor.execute(consulta)
     datos = cursor.fetchall()
     conexion.close()
@@ -30,7 +30,7 @@ def Requerir_empleado():
     empleado = datos_pedir["empleado"]
     conexion = obtener_conexion()
     cursor = conexion.cursor()
-    consulta = "select empleado.idEmpleado, empleado.Nombre, espacio.nombre, fecha from empleado join registro on empleado.idEmpleado = registro.empleado join espacio on espacio.idEspacio = registro.lugar where empleado.idEmpleado = {0};".format(empleado)
+    consulta = "select Empleado.idEmpleado, Empleado.Nombre, Espacio.Nombre, Fecha from Empleado join Registro on Empleado.idEmpleado = Registro.Empleado join Espacio on Espacio.idEspacio = Registro.Lugar where Empleado.idEmpleado = {0};".format(empleado)
     cursor.execute(consulta)
     datos = cursor.fetchall()
     conexion.close()
@@ -50,7 +50,7 @@ def Requerir_empleado():
         dict[str(i + 1)]=dict_aux
 
     
-    return dict, 200
+    return jsonify(dict), 200
 
 
 @app.route("/agregar_empleado", methods=["POST"])
@@ -63,7 +63,7 @@ def Agregar_empleado():
     try:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
-        consulta = "INSERT INTO empleado (idEmpleado, Nombre, Admin) VALUES ('{0}', '{1}', '{2}')".format(num_empleado, nombre_empleado, admin)
+        consulta = "INSERT INTO Empleado (idEmpleado, Nombre, Admin) VALUES ('{0}', '{1}', '{2}')".format(num_empleado, nombre_empleado, admin)
         cursor.execute(consulta)
         conexion.commit()
         conexion.close()
@@ -82,12 +82,12 @@ def agregar_espacio():
     try:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
-        consulta = "SELECT idTipo FROM tipo_espacio WHERE Tipo = '{0}'".format(tipo_espacio)
+        consulta = "SELECT idTipo FROM Tipo_Espacio WHERE Tipo = '{0}'".format(tipo_espacio)
         cursor.execute(consulta)
         datos_tipo = cursor.fetchall()
         tipo_espacio = datos_tipo[0][0]
 
-        consulta = "INSERT INTO espacio (Capacidad, Nombre, Tipo) VALUES ('{0}', '{1}', '{2}')".format(capacidad_espacio, nombre_espacio, tipo_espacio)
+        consulta = "INSERT INTO Espacio (Capacidad, Nombre, Tipo) VALUES ('{0}', '{1}', '{2}')".format(capacidad_espacio, nombre_espacio, tipo_espacio)
         cursor.execute(consulta)
         conexion.commit()
         conexion.close()
@@ -115,7 +115,7 @@ def Apartar_lugar():
 
         espacio_apartado = nombre_espacio[0][0]
 
-        consulta = "INSERT INTO registro (Empleado, Lugar, Fecha) VALUES ('{0}', '{1}', '{2}')".format(empleado_apartado, espacio_apartado, fecha_apartado)
+        consulta = "INSERT INTO Registro (Empleado, Lugar, Fecha) VALUES ('{0}', '{1}', '{2}')".format(empleado_apartado, espacio_apartado, fecha_apartado)
         cursor.execute(consulta)
         conexion.commit()
         conexion.close()
@@ -134,11 +134,11 @@ def Requerir_sala():
     try:
         conexion = obtener_conexion()
         cursor = conexion.cursor()
-        consulta = "select count(*) from registro join espacio on idEspacio = lugar where fecha = '" + str(fecha_pedida) + "' and Nombre = '" + str(espacio_pedido) + "'"
+        consulta = "select count(*) from Registro join Espacio on idEspacio = Lugar where Fecha = '" + str(fecha_pedida) + "' and Nombre = '" + str(espacio_pedido) + "'"
         cursor.execute(consulta)
         ocupados = cursor.fetchall()
 
-        consulta = "select capacidad from espacio where Nombre = '" + str(espacio_pedido) + "'"
+        consulta = "select Capacidad from Espacio where Nombre = '" + str(espacio_pedido) + "'"
         cursor.execute(consulta)
         totales = cursor.fetchall()
         espacios_restantes = int(totales[0][0]) - int(ocupados[0][0])
@@ -152,7 +152,7 @@ def Requerir_sala():
 def Requerir_registro():
     conexion = obtener_conexion()
     cursor = conexion.cursor()
-    consulta = "select empleado.idEmpleado, empleado.Nombre, espacio.Nombre, Fecha from registro join espacio on registro.lugar = espacio.idEspacio join empleado on registro.empleado = empleado.idEmpleado order by fecha;"
+    consulta = "select Empleado.idEmpleado, Empleado.Nombre, Espacio.Nombre, Fecha from Registro join Espacio on Registro.Lugar = Espacio.idEspacio join Empleado on Registro.Empleado = Empleado.idEmpleado order by Fecha;"
     cursor.execute(consulta)
     datos = cursor.fetchall()
     conexion.close()
@@ -168,7 +168,7 @@ def Requerir_registro():
 
         dict[str(i)]=dict_aux
 
-    return dict, 200
+    return jsonify(dict), 200
 
 @app.route("/modificar_empleado", methods=["PUT"])
 def modificar_empleado():
@@ -178,13 +178,13 @@ def modificar_empleado():
     admin=datos_nuevos["admin"]
 
     try:
-        consulta = "update empleado set nombre = '" + str(nombre_empleado) +"' where idEmpleado = '"+str(num_empleado)+"';"
+        consulta = "update Empleado set Nombre = '" + str(nombre_empleado) +"' where idEmpleado = '"+str(num_empleado)+"';"
         conexion = obtener_conexion()
         cursor = conexion.cursor()
         cursor.execute(consulta)
         conexion.commit()
 
-        consulta = "update empleado set admin = '" + str(admin) +"' where idEmpleado = '"+str(num_empleado)+"';"
+        consulta = "update Empleado set Admin = '" + str(admin) +"' where idEmpleado = '"+str(num_empleado)+"';"
 
         cursor.execute(consulta)
         conexion.commit()
@@ -194,7 +194,7 @@ def modificar_empleado():
     
     return jsonify({"actualizado":True}), 201
 
-@app.route("/modificar_esoacio", methods=["PUT"])
+@app.route("/modificar_espacio", methods=["PUT"])
 def modificar_espacio():
     datos_espacio = request.get_json()
     nombre_original = datos_espacio["nombre_original"]
@@ -203,26 +203,26 @@ def modificar_espacio():
     capacidad = datos_espacio["capacidad"]
 
     try:
-        consulta = "select idEspacio from espacio where nombre = '{0}';".format(nombre_original)
+        consulta = "select idEspacio from Espacio where Nombre = '{0}';".format(nombre_original)
         conexion = obtener_conexion()
         cursor = conexion.cursor()
         cursor.execute(consulta)
         idEspacio = cursor.fetchall()
         print("\n\n\n", idEspacio)
 
-        consulta = "select idTipo from tipo_espacio where tipo = '{0}';".format(tipo)
+        consulta = "select idTipo from Tipo_Espacio where Tipo = '{0}';".format(tipo)
         cursor.execute(consulta)
         idTipo = cursor.fetchall()
 
-        consulta = "update espacio set nombre = '{0}' where idEspacio = {1}".format(nombre_cambiar, idEspacio[0][0])
+        consulta = "update Espacio set Nombre = '{0}' where idEspacio = {1}".format(nombre_cambiar, idEspacio[0][0])
         cursor.execute(consulta)
         conexion.commit()
 
-        consulta = "update espacio set tipo = {0} where idEspacio = {1}".format(idTipo[0][0], idEspacio[0][0])
+        consulta = "update Espacio set Tipo = {0} where idEspacio = {1}".format(idTipo[0][0], idEspacio[0][0])
         cursor.execute(consulta)
         conexion.commit()
 
-        consulta = "update espacio set capacidad = {0} where idEspacio = {1};".format(capacidad, idEspacio[0][0])
+        consulta = "update Espacio set Capacidad = {0} where idEspacio = {1};".format(capacidad, idEspacio[0][0])
         cursor.execute(consulta)
         conexion.commit()
     except:
@@ -239,6 +239,30 @@ def modificar_registro():
     fecha = datos_registro["fecha"]
 
     return "xD"
+
+@app.route("/requerir_espacios")
+def requerir_salas():
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    consulta = "SELECT idEspacio, Nombre FROM Espacio"
+    cursor.execute(consulta)
+
+    datos = cursor.fetchall()
+    conexion.close()
+    dict = {}
+
+    if(len(datos) == 0):
+        return jsonify({"0":"Datos no encontrados"}), 404
+    
+    for i in range (0, len(datos)):
+        dict_aux = {}
+
+        dict_aux["ID"] = datos[i][0]
+        dict_aux["nombre"] = datos[i][1]
+
+        dict[str(i + 1)] = dict_aux
+
+    return jsonify(dict), 200
 
 
 if __name__ == "__main__":
