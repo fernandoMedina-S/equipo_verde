@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preload" href="{{ url_for('static', filename='styles/style.css') }}" as="style">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css' ) }}">
+    <link rel="preload" href="{{ url_for('static', filename='style.css') }}" as="style">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css' ) }}">
     <title>Cloud office</title>
 
     <meta name="description" content="Página web para apartar espacios de trabajo">
@@ -51,11 +51,6 @@
                         <label for="ID_espacio">ID del lugar donde desea trabajar: </label>
                         <input type="text" id="ID_espacio" name="espacio" placeholder="ID espacio">
                     </div>
-    
-                    <div class="campo">
-                        <label for="hora_inicio">Hora de inicio</label>
-                        <input type="time" id="hora_inico" name="inicio">
-                    </div>
 
                     <div class="campo">
                         <label for="fecha">Fecha</label>
@@ -73,19 +68,19 @@
         <caption>Lugares disponibles</caption>
         <thead>
             <tr>
-                <td>Fecha</td>
-                <td>Nombre</td>
-                <td>Espacio</td>
-                <td>ID empleado</td>
+                <th>ID</th>
+                <th>Capacidad</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
             </tr>
         </thead>
         <tbody>
             {% for espacio in espacios%}
                 <tr>
+                    <td>{{espacio.3}}</td>
                     <td>{{espacio.0}}</td>
                     <td>{{espacio.1}}</td>
                     <td>{{espacio.2}}</td>
-                    <td>{{espacio.3}}</td>
                 </tr>
             {% endfor %}
         </tbody>

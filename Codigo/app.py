@@ -124,6 +124,32 @@ def Apartar_lugar():
 
     return jsonify({"ApartadoAgregado":True}), 201
 
+@app.route("/Requerir_lugares")
+def Lugares_disponibles():
+    espacio = request.get_json()
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    consulta = "select * from espacio ;".format(espacio)
+    cursor.execute(consulta)
+    datos = cursor.fetchall()
+    conexion.close()
+    dict = {}
+
+    if(len(datos) == 0):
+        return jsonify({"0":"Datos no encontrados"}), 404
+        
+    for i in range (0, len(datos)):
+        dict_aux = {}
+
+        dict_aux["idEspacio"] = datos[i][0]
+        dict_aux["Capacidad"] = datos[i][1]
+        dict_aux["Nombre"] = datos[i][2]
+        dict_aux["Tipo"] = datos[i][3]
+
+        dict[str(i + 1)]=dict_aux
+
+    
+    return jsonify(dict), 200
     
 @app.route("/requerir_estado_espacio") 
 def Requerir_sala():

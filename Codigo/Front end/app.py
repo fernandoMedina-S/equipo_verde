@@ -8,7 +8,7 @@ app = Flask(__name__)
 def index():
     diccionario = {}
     diccionario['empleado'] = 12345
-    url = 'http://127.0.0.1:3000/requerir_historial_empleado'
+    url = 'http://127.0.0.1:3000/Requerir_lugares'
     respuesta = requests.get(url, json=diccionario)
     espacios = json.loads(respuesta.text)
     listaPrincipal = []

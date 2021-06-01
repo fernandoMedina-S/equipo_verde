@@ -192,31 +192,32 @@ input{
 table {     
     font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
     font-size: 12px;    
-    margin: 45px;     
+    margin: 0 auto;     
     width: 480px; 
     text-align: left;    
     border-collapse: collapse; 
+    margin-top: 5rem;
 }
 
 th {     
     font-size: 13px;     
     font-weight: normal;     
     padding: 8px;     
-    background: #b9c9fe;
-    border-top: 4px solid #aabcfe;    
-    border-bottom: 1px solid #fff; 
-    color: #039; 
+    background: var(--negro);
+    border-top: 4px solid var(--blanco);    
+    border-bottom: 1px solid var(--blanco); 
+    color: var(--rojo); 
 }
 
 td {    
     padding: 8px;     
-    background: #e8edff;     
-    border-bottom: 1px solid #fff;
-    color: #669;    
+    background: var(--blanco);     
+    border-bottom: 1px solid var(--blanco);
+    color: var(--negro);    
     border-top: 1px solid transparent; 
 }
 
 tr:hover td { 
-    background: #d0dafd; 
-    color: #339; 
+    background: var(--rojo); 
+    color: var(--blanco); 
 }
