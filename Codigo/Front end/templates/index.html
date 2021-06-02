@@ -40,21 +40,20 @@
         <div >
             <fieldset>
                 <legend>Introduzca los siguientes datos para aprtar su lugar</legend>
-                <form>
-                   
+                <form action="/registro" method="POST">
                     <div class="campo">
                         <label for="ID_empleado">ID del empleado: </label>
-                        <input type="text" id="ID_empleado" name="empleado" placeholder="ID empleado"/>
+                        <input required type="text" id="ID_empleado" name="empleado" placeholder="ID empleado"/>
                     </div>
     
                     <div class="campo">
-                        <label for="ID_espacio">ID del lugar donde desea trabajar: </label>
-                        <input type="text" id="ID_espacio" name="espacio" placeholder="ID espacio">
+                        <label for="ID_espacio">Nombre del lugar donde desea trabajar: </label>
+                        <input required type="text" id="ID_espacio" name="espacio" placeholder="ID espacio">
                     </div>
 
                     <div class="campo">
                         <label for="fecha">Fecha</label>
-                        <input type="date" name="fecha" id="fecha">
+                        <input required type="date" name="fecha" id="fecha">
                     </div>
 
                     <input class="boton" type="submit" name="enviar" value="Enviar peticion">

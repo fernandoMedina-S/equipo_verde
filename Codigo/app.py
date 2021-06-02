@@ -91,6 +91,7 @@ def agregar_espacio():
         cursor.execute(consulta)
         conexion.commit()
         conexion.close()
+        flash('Lugar apartado exitosamente')
     except:
         return jsonify({"EspacioAgregado":False}), 401
 

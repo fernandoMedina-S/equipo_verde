@@ -1,10 +1,12 @@
+from flask.helpers import url_for
+from pymysql.cursors import DictCursorMixin
 import requests
 import json
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request, redirect
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/", methods = ['GET', 'POST'])
 def index():
     diccionario = {}
     diccionario['empleado'] = 12345
@@ -18,6 +20,8 @@ def index():
         for clave in diccionarioAux:
             listaAux.append(diccionarioAux[clave])
         listaPrincipal.append(listaAux)
+
+    
     return render_template('index.html', espacios = listaPrincipal)
 
 @app.route("/admin.html")
@@ -60,6 +64,22 @@ def recepcion():
 @app.route("/login.html")
 def login():
     return render_template('login.html')
+
+@app.route("/registro", methods = ['POST'])
+def registro():
+    empleado = request.form['empleado']
+    espacio = request.form['espacio']
+    fecha = request.form['fecha']
+
+    diccionario = {}
+    diccionario['empleado_apartado'] = empleado
+    diccionario['espacio_apartado'] = espacio
+    diccionario['fecha_apartado'] = fecha
+    url = "http://127.0.0.1:3000/apartar_lugar"
+    respuesta = requests.post(url, json=diccionario)
+
+    print(diccionario)
+    return redirect(url_for("index"))
 
 if __name__ == '__main__':
     app.run(debug = True)
