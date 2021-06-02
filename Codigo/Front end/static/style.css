@@ -187,3 +187,37 @@ input{
     width: 5rem;
     height: 5rem;
 }
+
+/*Tablas*/
+table {     
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-size: 12px;    
+    margin: 0 auto;     
+    width: 480px; 
+    text-align: left;    
+    border-collapse: collapse; 
+    margin-top: 5rem;
+}
+
+th {     
+    font-size: 13px;     
+    font-weight: normal;     
+    padding: 8px;     
+    background: var(--negro);
+    border-top: 4px solid var(--blanco);    
+    border-bottom: 1px solid var(--blanco); 
+    color: var(--rojo); 
+}
+
+td {    
+    padding: 8px;     
+    background: var(--blanco);     
+    border-bottom: 1px solid var(--blanco);
+    color: var(--negro);    
+    border-top: 1px solid transparent; 
+}
+
+tr:hover td { 
+    background: var(--rojo); 
+    color: var(--blanco); 
+}
