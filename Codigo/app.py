@@ -9,7 +9,7 @@ app = Flask(__name__)
 def obtener_conexion():
     return pymysql.connect(host='localhost',
                                 user='root',
-                                password='',
+                                password='root',
                                 db='Coffice')
 
 
@@ -130,7 +130,7 @@ def Lugares_disponibles():
     espacio = request.get_json()
     conexion = obtener_conexion()
     cursor = conexion.cursor()
-    consulta = "select * from espacio ;".format(espacio)
+    consulta = "select * from Espacio ;".format(espacio)
     cursor.execute(consulta)
     datos = cursor.fetchall()
     conexion.close()
@@ -151,6 +151,25 @@ def Lugares_disponibles():
 
     
     return jsonify(dict), 200
+
+@app.route("/requerir_estado_general")
+def Requerir_estado_general():
+    datos_solicitados = request.get_json()
+    fecha_solicitada = datos_solicitados["fecha"]
+
+    try:
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
+        consulta = "select count(*), Nombre from Registro join Espacio on idEspacio = Lugar where Fecha = '{0}' group by Nombre;".format(fecha_solicitada)
+        cursor.execute(consulta)
+        datos = cursor.fetchall()
+
+
+        print(datos)
+        return "XD"
+    except:
+        return "XD"
+
     
 @app.route("/requerir_estado_espacio") 
 def Requerir_sala():
