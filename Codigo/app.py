@@ -79,9 +79,11 @@ def agregar_espacio():
     nombre_espacio = espacio_detalles["nombre_espacio"]
     tipo_espacio = espacio_detalles["tipo_espacio"]
 
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+
     try:
-        conexion = obtener_conexion()
-        cursor = conexion.cursor()
+        
         consulta = "SELECT idTipo FROM Tipo_Espacio WHERE Tipo = '{0}'".format(tipo_espacio)
         cursor.execute(consulta)
         datos_tipo = cursor.fetchall()

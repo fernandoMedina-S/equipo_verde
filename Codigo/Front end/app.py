@@ -1,3 +1,4 @@
+from types import MethodDescriptorType
 from flask.helpers import url_for
 from pymysql.cursors import DictCursorMixin
 import requests
@@ -65,8 +66,8 @@ def recepcion():
 def login():
     return render_template('login.html')
 
-@app.route("/registro", methods = ['POST'])
-def registro():
+@app.route("/apartarLugar", methods = ['POST'])
+def apartarLugar():
     empleado = request.form['empleado']
     espacio = request.form['espacio']
     fecha = request.form['fecha']
@@ -78,8 +79,24 @@ def registro():
     url = "http://127.0.0.1:3000/apartar_lugar"
     respuesta = requests.post(url, json=diccionario)
 
-    print(diccionario)
+    #print(diccionario)
     return redirect(url_for("index"))
+
+@app.route("/agregarEmpleado", methods = ['POST'])
+def agregarEmpleado():
+    idEmpleado = request.form['empleado']
+    nombreEmpleado = request.form['nombre']
+    adminEmpleado = request.form['admin']
+
+    diccionario = {}
+    diccionario['num_empleado'] = idEmpleado
+    diccionario['nombre_empleado'] = nombreEmpleado
+    diccionario['admin'] = adminEmpleado
+    url = "http://127.0.0.1:3000/agregar_empleado"
+    respuesta = requests.post(url, json=diccionario)
+
+    print(diccionario)
+    return redirect(url_for("admin"))
 
 if __name__ == '__main__':
     app.run(debug = True)

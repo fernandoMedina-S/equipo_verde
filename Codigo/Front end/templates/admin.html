@@ -38,6 +38,31 @@
         </div>
     </header>
 
+    <div >
+        <fieldset>
+            <legend>Introduzca los siguientes datos para agregar un empleado</legend>
+            <form action="/agregarEmpleado" method="POST">
+                <div class="campo">
+                    <label for="IDempleado_agregar">ID del empleado: </label>
+                    <input required type="text" id="IDempleado_agregar" name="empleado" placeholder="ID empleado"/>
+                </div>
+
+                <div class="campo">
+                    <label for="nombreEmpleado_agregar">Nombre del empleado: </label>
+                    <input required type="text" id="nombreEmpleado_agregar" name="nombre" placeholder="Nombre empleado">
+                </div>
+
+                <div class="campo">
+                    <label for="admin_agregar">Permiso del admin 1 (si), 0 (no): </label>
+                    <input required type="text" id="admin_agregar" name="admin" placeholder="Permisos admin">
+                </div>
+
+                <input class="boton" type="submit" name="enviar" value="Guardar empleado">
+
+            </form> 
+        </fieldset>
+    </div>
+
     <div class="tablas">
         <table>
             <caption>Historial de empleado</caption>
