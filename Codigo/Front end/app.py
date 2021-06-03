@@ -10,8 +10,8 @@ app = Flask(__name__)
 @app.route("/", methods = ['GET', 'POST'])
 def index():
     diccionario = {}
-    diccionario['empleado'] = 12345
-    url = 'http://127.0.0.1:3000/Requerir_lugares'
+    diccionario['empleado'] = 55555
+    url = 'http://equipoverde.pythonanywhere.com/Requerir_lugares'
     respuesta = requests.get(url, json=diccionario)
     espacios = json.loads(respuesta.text)
     listaPrincipal = []
@@ -29,7 +29,7 @@ def index():
 def admin():
     diccionario = {}
     diccionario['empleado'] = 2345
-    url = 'http://127.0.0.1:3000/requerir_historial_empleado'
+    url = 'http://equipoverde.pythonanywhere.com/requerir_historial_empleado'
     respuesta = requests.get(url, json=diccionario)
     espacios = json.loads(respuesta.text)
     listaPrincipal = []
@@ -44,7 +44,7 @@ def admin():
     #Historial general
     diccionarioGeneral = {}
     diccionarioGeneral['empleado'] = 12345
-    urlGeneral = 'http://127.0.0.1:3000/requerir_historial_general'
+    urlGeneral = 'http://equipoverde.pythonanywhere.com/requerir_historial_general'
     respuestaGeneral = requests.get(urlGeneral, json=diccionarioGeneral)
     historial = json.loads(respuestaGeneral.text)
     listaPrincipalG = []
@@ -76,7 +76,7 @@ def apartarLugar():
     diccionario['empleado_apartado'] = empleado
     diccionario['espacio_apartado'] = espacio
     diccionario['fecha_apartado'] = fecha
-    url = "http://127.0.0.1:3000/apartar_lugar"
+    url = "http://equipoverde.pythonanywhere.com/apartar_lugar"
     respuesta = requests.post(url, json=diccionario)
 
     #print(diccionario)
@@ -92,11 +92,25 @@ def agregarEmpleado():
     diccionario['num_empleado'] = idEmpleado
     diccionario['nombre_empleado'] = nombreEmpleado
     diccionario['admin'] = adminEmpleado
-    url = "http://127.0.0.1:3000/agregar_empleado"
+    url = "http://equipoverde.pythonanywhere.com/agregar_empleado"
     respuesta = requests.post(url, json=diccionario)
 
     print(diccionario)
     return redirect(url_for("admin"))
 
+@app.route("/agregarEspacio", methods = ['POST'])
+def agregarEspacio():
+    capacidadEspacio = request.form['capacidad']
+    nombreEspacio = request.form['nombre']
+    tipoEspacio = request.form['tipo']
+
+    diccionario = {}
+    diccionario['capacidad_espacio'] = capacidadEspacio
+    diccionario['nombre_espacio'] = nombreEspacio
+    diccionario['tipo_espacio'] = tipoEspacio
+    url = "http://equipoverde.pythonanywhere.com/agregar_espacio"
+    respuesta = requests.post(url, json=diccionario)
+
+    return redirect(url_for("admin"))
 if __name__ == '__main__':
     app.run(debug = True)

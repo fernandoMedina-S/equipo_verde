@@ -34,7 +34,7 @@
 
         <div class="header_texto">
             <h2 class="no-margin">Cloud Office</h2>
-            <p class="no-margin">Administra los lugares de trabajo</p>
+            <p class="no-margin">Administra a tu gusto</p>
         </div>
     </header>
 
@@ -58,6 +58,31 @@
                 </div>
 
                 <input class="boton" type="submit" name="enviar" value="Guardar empleado">
+
+            </form> 
+        </fieldset>
+    </div>
+
+    <div>
+        <fieldset>
+            <legend>Introduzca los siguientes datos para agregar un empleado</legend>
+            <form action="/agregarEspacio" method="POST">
+                <div class="campo">
+                    <label for="capacidad_espacio">Capacidad del espacio: </label>
+                    <input required type="text" id="capacidad_espacio" name="capacidad" placeholder="Capacidad del espacio"/>
+                </div>
+
+                <div class="campo">
+                    <label for="nombre_espacio">Nombre del espacio: </label>
+                    <input required type="text" id="nombre_espacio" name="nombre" placeholder="Nombre del espacio">
+                </div>
+
+                <div class="campo">
+                    <label for="tipo_espacio">Tipo de espacio: </label>
+                    <input required type="text" id="tipo_espacio" name="tipo" placeholder="Tipo de espacio">
+                </div>
+
+                <input class="boton" type="submit" name="enviar" value="Guardar espacio">
 
             </form> 
         </fieldset>
