@@ -27,7 +27,7 @@ def Index():
 @app.route("/requerir_historial_empleado") 
 def Requerir_empleado():
     datos_pedir = request.get_json()
-    empleado = datos_pedir["empleado"]
+    empleado = int(datos_pedir["empleado"])
     conexion = obtener_conexion()
     cursor = conexion.cursor()
     consulta = "select Empleado.idEmpleado, Empleado.Nombre, Espacio.Nombre, Fecha from Empleado join Registro on Empleado.idEmpleado = Registro.Empleado join Espacio on Espacio.idEspacio = Registro.Lugar where Empleado.idEmpleado = {0};".format(empleado)
@@ -78,22 +78,14 @@ def agregar_espacio():
     capacidad_espacio = espacio_detalles["capacidad_espacio"]
     nombre_espacio = espacio_detalles["nombre_espacio"]
     tipo_espacio = espacio_detalles["tipo_espacio"]
-
-    conexion = obtener_conexion()
-    cursor = conexion.cursor()
-
+    
     try:
-        
-        consulta = "SELECT idTipo FROM Tipo_Espacio WHERE Tipo = '{0}'".format(tipo_espacio)
-        cursor.execute(consulta)
-        datos_tipo = cursor.fetchall()
-        tipo_espacio = datos_tipo[0][0]
-
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
         consulta = "INSERT INTO Espacio (Capacidad, Nombre, Tipo) VALUES ('{0}', '{1}', '{2}')".format(capacidad_espacio, nombre_espacio, tipo_espacio)
         cursor.execute(consulta)
         conexion.commit()
         conexion.close()
-        flash('Lugar apartado exitosamente')
     except:
         return jsonify({"EspacioAgregado":False}), 401
 

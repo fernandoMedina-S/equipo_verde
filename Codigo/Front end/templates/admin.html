@@ -88,6 +88,19 @@
         </fieldset>
     </div>
 
+    <div>
+        <h3>Introduzca el empleado a buscar</h3>
+        <form action="/buscarEmpleado" method="POST">
+            <div class="campo">
+                <label for="empleado_buscar">ID del empleado a buscar: </label>
+                <input required type="text" id="empleado_buscar" name="empleadoBuscar" placeholder="ID empleado"/>
+            </div>
+
+            <input class="boton" type="submit" name="enviar" value="Buscar">
+
+        </form> 
+    </div>
+
     <div class="tablas">
         <table>
             <caption>Historial de empleado</caption>
