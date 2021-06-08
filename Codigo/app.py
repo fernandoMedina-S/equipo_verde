@@ -7,10 +7,10 @@ import pymysql
 app = Flask(__name__)
 
 def obtener_conexion():
-    return pymysql.connect(host='localhost',
-                                user='root',
-                                password='',
-                                db='Coffice')
+    return pymysql.connect(host='equipoverde.mysql.pythonanywhere-services.com',
+                                user='equipoverde',
+                                password='rootroot',
+                                db='equipoverde$default')
 
 
 @app.route("/")
@@ -24,7 +24,7 @@ def Index():
     return str(datos)
 
 
-@app.route("/requerir_historial_empleado") 
+@app.route("/requerir_historial_empleado")
 def Requerir_empleado():
     datos_pedir = request.get_json()
     empleado = datos_pedir["empleado"]
@@ -38,7 +38,7 @@ def Requerir_empleado():
 
     if(len(datos) == 0):
         return jsonify({"0":"Datos no encontrados"}), 404
-        
+
     for i in range (0, len(datos)):
         dict_aux = {}
 
@@ -49,7 +49,7 @@ def Requerir_empleado():
 
         dict[str(i + 1)]=dict_aux
 
-    
+
     return jsonify(dict), 200
 
 
@@ -106,13 +106,13 @@ def Apartar_lugar():
 
     conexion = obtener_conexion()
     cursor = conexion.cursor()
-    
+
 
     try:
         consulta = "SELECT idEspacio from Espacio where Nombre = '{0}'".format(espacio_apartado)
         cursor.execute(consulta)
         nombre_espacio = cursor.fetchall()
-        
+
 
         espacio_apartado = nombre_espacio[0][0]
 
@@ -130,7 +130,7 @@ def Lugares_disponibles():
     espacio = request.get_json()
     conexion = obtener_conexion()
     cursor = conexion.cursor()
-    consulta = "select * from espacio ;".format(espacio)
+    consulta = "select * from Espacio ;".format(espacio)
     cursor.execute(consulta)
     datos = cursor.fetchall()
     conexion.close()
@@ -138,7 +138,7 @@ def Lugares_disponibles():
 
     if(len(datos) == 0):
         return jsonify({"0":"Datos no encontrados"}), 404
-        
+
     for i in range (0, len(datos)):
         dict_aux = {}
 
@@ -149,10 +149,10 @@ def Lugares_disponibles():
 
         dict[str(i + 1)]=dict_aux
 
-    
+
     return jsonify(dict), 200
-    
-@app.route("/requerir_estado_espacio") 
+
+@app.route("/requerir_estado_espacio")
 def Requerir_sala():
     datos_solicitados = request.get_json()
     espacio_pedido = datos_solicitados["espacio"]
@@ -175,7 +175,7 @@ def Requerir_sala():
 
     return jsonify({"libres":espacios_restantes}), 200
 
-@app.route("/requerir_historial_general") 
+@app.route("/requerir_historial_general")
 def Requerir_registro():
     conexion = obtener_conexion()
     cursor = conexion.cursor()
@@ -218,7 +218,7 @@ def modificar_empleado():
         conexion.close()
     except:
         return jsonify({"actualizado":False}), 400
-    
+
     return jsonify({"actualizado":True}), 201
 
 @app.route("/modificar_espacio", methods=["PUT"])
@@ -254,7 +254,7 @@ def modificar_espacio():
         conexion.commit()
     except:
         return jsonify({"actualizado":False}), 400
-    
+
     return jsonify({"actualizado":True}), 201
 
 @app.route("/modificar_registro", methods=["PUT"])
@@ -280,7 +280,7 @@ def requerir_salas():
 
     if(len(datos) == 0):
         return jsonify({"0":"Datos no encontrados"}), 404
-    
+
     for i in range (0, len(datos)):
         dict_aux = {}
 
