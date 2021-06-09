@@ -6,17 +6,17 @@ import pymysql
 
 app = Flask(__name__)
 
-# def obtener_conexion():
-#     return pymysql.connect(host='equipoverde.mysql.pythonanywhere-services.com',
-#                                 user='equipoverde',
-#                                 password='rootroot',
-#                                 db='equipoverde$default')
-
 def obtener_conexion():
-    return pymysql.connect(host='localhost',
-                                user='root',
-                                password='',
-                                db='coffice')
+    return pymysql.connect(host='equipoverde.mysql.pythonanywhere-services.com',
+                                user='equipoverde',
+                                password='rootroot',
+                                db='equipoverde$default')
+
+# def obtener_conexion():
+#     return pymysql.connect(host='localhost',
+#                                 user='root',
+#                                 password='',
+#                                 db='coffice')
 
 @app.route("/")
 def Index():
