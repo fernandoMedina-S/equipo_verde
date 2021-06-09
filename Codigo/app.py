@@ -6,12 +6,17 @@ import pymysql
 
 app = Flask(__name__)
 
-def obtener_conexion():
-    return pymysql.connect(host='equipoverde.mysql.pythonanywhere-services.com',
-                                user='equipoverde',
-                                password='rootroot',
-                                db='equipoverde$default')
+# def obtener_conexion():
+#     return pymysql.connect(host='equipoverde.mysql.pythonanywhere-services.com',
+#                                 user='equipoverde',
+#                                 password='rootroot',
+#                                 db='equipoverde$default')
 
+def obtener_conexion():
+    return pymysql.connect(host='localhost',
+                                user='root',
+                                password='',
+                                db='coffice')
 
 @app.route("/")
 def Index():
@@ -290,6 +295,22 @@ def requerir_salas():
         dict[str(i + 1)] = dict_aux
 
     return jsonify(dict), 200
+
+@app.route("/es_admin")
+def es_admin():
+    datos = request.get_json()
+    empleado = datos["empleado"]
+    consulta = "select admin from Empleado where idEmpleado = " + str(empleado) + ";"
+    conexion = obtener_conexion()
+    cursor = conexion.cursor()
+    cursor.execute(consulta)
+    admin = cursor.fetchall()
+
+    if(len(admin) == 0):
+        return jsonify({"admin":"No encontrado"}), 404
+    
+
+    return jsonify({"admin":str(admin[0][0])}), 200
 
 
 if __name__ == "__main__":
