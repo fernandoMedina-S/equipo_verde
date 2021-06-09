@@ -1,5 +1,6 @@
 from typing import Tuple
-from flask import Flask, render_template, request, url_for, redirect, flash, session, make_response, jsonify
+from flask import Flask, json, render_template, request, url_for, redirect, flash, session, make_response, jsonify
+from flask.globals import current_app
 from jinja2.utils import consume
 import pymysql
 
@@ -311,6 +312,50 @@ def es_admin():
     
 
     return jsonify({"admin":str(admin[0][0])}), 200
+
+@app.route("/eliminar_empleado", methods = ["DELETE"])
+def eliminar_empleado():
+    datos = request.get_json()
+    idEmpleado = datos["empleado"]
+
+    try:
+        consulta = "DELETE from Empleado where idEmpleado = " + str(idEmpleado) + ";"
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
+        cursor.execute(consulta)
+        conexion.commit()
+        conexion.close()
+    except:
+        return jsonify({"eliimnado":"false"}), 400
+    
+    return jsonify({"eliimnado":"true"}), 201
+
+@app.route("/eliminar_espacio", methods=["DELETE"])
+def eliminar_espacio():
+    datos = request.get_json()
+    nombre_espacio = datos["espacio"]
+
+    consulta = 'SELECT idEspacio from Espacio where Nombre = "' + str(nombre_espacio) + '";'
+
+    try:
+        
+        conexion = obtener_conexion()
+        cursor = conexion.cursor()
+        cursor.execute(consulta)        
+        idEspacio = cursor.fetchall()
+        idEspacio = idEspacio[0][0]
+        
+        
+        consulta = "DELETE from Espacio where idEspacio = " + str(idEspacio) + ";"
+        
+        cursor.execute(consulta)
+        print(consulta)
+        conexion.commit()
+        conexion.close()
+    except:
+        return jsonify({"eliminado":"false"}), 400
+    
+    return jsonify({"eliminado":"true"}), 200
 
 
 if __name__ == "__main__":
